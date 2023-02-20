@@ -1,0 +1,35 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++ アクティブなファイルのビルド",
+            "command": "gcc",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${fileDirname}/${fileBasename}",
+                "${fileDirname}/wavesimu.c",
+                "${fileDirname}/xlibcolorgc.c",
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-I /usr/include",
+                "-L /usr/lib",
+                "-lm",
+                "-O2",
+                "-lX11"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "デバッガーによって生成されたタスク。"
+        }
+    ],
+    "version": "2.0.0"
+}
