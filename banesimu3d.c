@@ -42,6 +42,8 @@ int main(int argc, char **argv){
 
   	XSetForeground(dpy,gc,black);
 
+    XPoint renzokuiti[10000];
+
 ////////////////////////////////////////
 
     pointMass wavefront2d[100][100];
@@ -66,7 +68,8 @@ int itibuff[100][100];
         //for(int i=230;i<270;i++){wavefront2d[235][i].posZ=0;}
         for(int t=0; t<20;t++){
             for(int i=1;i<99;++i){
-                for (int k=1;k<99; ++k){wavefront2d[k][i].accel=0-(4*wavefront2d[k][i].posZ-(wavefront2d[k-1][i].posZ+wavefront2d[k][i-1].posZ+wavefront2d[k+1][i].posZ+wavefront2d[k][i+1].posZ))*0.5-wavefront2d[k][i].vel*0.03;
+                float i_f=i*0.004+0.996;
+                for (int k=1;k<99; ++k){wavefront2d[k][i].accel=0-(4*wavefront2d[k][i].posZ-(wavefront2d[k-1][i].posZ+wavefront2d[k][i-1].posZ+wavefront2d[k+1][i].posZ+wavefront2d[k][i+1].posZ))*0.5-wavefront2d[k][i].vel*0.01;
                 pMintegral(&wavefront2d[k][i]);
                 //XSetForeground(dpy,gc,wavefront2d[k][i].posZ*0.1);
                 u_int8_t glay=wavefront2d[k][i].posZ*64+128;
@@ -74,11 +77,16 @@ int itibuff[100][100];
                 //char moji[10];
                 //sprintf(&moji,"%d",wavefront2d[k][i].posZ);
                 //XDrawPoint(dpy,w,gc,10*k,10*i);
+                renzokuiti[k+i*100].x=9*k*i_f+0.05*i;
+                renzokuiti[k+i*100].y=400-wavefront2d[i][k].posZ*50+6*i;
                 //printf("loop1");
-               drawPointGC9x9(3*i,3*k,gc,dpy,w);
+                drawPointGC9x9(3*i,3*k,gc,dpy,w);
+                
                 ++tmesin;
-            }}}
-           
+            }}
+            XDrawPoints(dpy,w,gc,renzokuiti,10000, CoordModeOrigin);
+            
+        }
            //if(tmesin<500000*3.15){
             wavefront2d[50][60].posZ=2*sin(tmesin/500000.0);
             wavefront2d[50][40].posZ=2*sin(tmesin/500000.0);
@@ -89,15 +97,19 @@ int itibuff[100][100];
                 wavefront2d[i][99].posZ=-wavefront2d[i][98].posZ;
             }
             XClearWindow(dpy, w);
+            /*
             for(int k=0;k<100;k++){
-                float kf=k*0.004+0.996;
+                float i_f=i*0.004+0.996;
                 for(int i=0; i<100;++i){
-                    XSetForeground(dpy, gc, white);
-                    drawPointGC9x9(9*i*kf,itibuff[k][i],gc,dpy,w);
-                    XSetForeground(dpy, gc, black);
-                    drawPointGC9x9(9*i*kf,400-wavefront2d[k][i].posZ*50+6*k,gc,dpy,w);
-                    itibuff[k][i]=400-wavefront2d[k][i].posZ+50+6*k;
+                    //XSetForeground(dpy, gc, white);
+                    //drawPointGC9x9(9*i*kf,itibuff[k][i],gc,dpy,w);
+                    //XSetForeground(dpy, gc, black);
+                    //drawPointGC9x9(9*i*kf,400-wavefront2d[k][i].posZ*50+6*k,gc,dpy,w);
+                    //itibuff[k][i]=400-wavefront2d[k][i].posZ+50+6*k;
+                    renzokuiti[k+i*100].x=9*k*i_f;
+                    renzokuiti[k+i*100].y=400-wavefront2d[i][k].posZ*50+6*i;
                     }
             }
+            XDrawPoints(dpy,w,gc,renzokuiti,10000, CoordModeOrigin);*/
         }   //printf("a");
 }
