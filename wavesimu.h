@@ -1,7 +1,7 @@
 #ifndef _banesimu_h
 #define _banesimu_h
 
-#define DELTA_T 0.01
+#define DELTA_T 0.015
 
 struct _pointmass_          //situten
 {

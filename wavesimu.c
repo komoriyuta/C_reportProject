@@ -24,7 +24,7 @@ void pMintegral(pointMass *integralpoint){
 void waveUpdate(pointMass wavefront[100][100]){
     for(int i=1;i<100-1;i++){
         for (int k=1;k<100-1;k++){
-            wavefront[i][k].accel=-(4*wavefront[i][k].posZ-(wavefront[i-1][k].posZ+wavefront[(i+1)][k].posZ+wavefront[i][k-1].posZ+wavefront[i][k+1].posZ))*0.5-wavefront[i][k].vel*0.06;
+            wavefront[i][k].accel=-(4*wavefront[i][k].posZ-(wavefront[i-1][k].posZ+wavefront[(i+1)][k].posZ+wavefront[i][k-1].posZ+wavefront[i][k+1].posZ))*0.6-wavefront[i][k].vel*0.08;
             pMintegral(&wavefront[i][k]);
         }
     }

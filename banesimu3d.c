@@ -188,7 +188,7 @@ int main(int argc, char **argv){
         lasttime=newtime;
         while(1){
             gettimeofday(&newtime,NULL);printf("%d\n",newtime.tv_usec-lasttime.tv_usec);
-            if(!((newtime.tv_usec-lasttime.tv_usec)>500000)){break;}
+            if(!((newtime.tv_usec-lasttime.tv_usec)>333333)){break;}
             
         }
     }
