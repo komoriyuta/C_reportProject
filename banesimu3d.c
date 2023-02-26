@@ -56,7 +56,7 @@ int main(int argc, char **argv){
     float matrixX[3][3]={{1,0,0},
                             {0,0.99984769515,0.01745240643},
                             {0,-0.01745240643,0.99984769515}};
-                            
+
     pointMass wavefront2d[100][100];
     for(int i=0;i<100;i++){for (int k=0;k<100; k++){pMReset(&wavefront2d[i][k],2);for(int j=0;j<3;j++){viewzahyou[i][k][j];}}}
 
@@ -73,9 +73,7 @@ int main(int argc, char **argv){
             matrixMultiple(view_matrix,matrixZ);
         }
             
-        XFlush(dpy);
-        //for(int i=230;i<270;i++){wavefront2d[235][i].posZ=0;}
-        //for(int t=0; t<20;t++){
+        
         waveUpdate(wavefront2d);
         XSetForeground(dpy, gc, black);
         viewVectorsTrans(wavefront2d,viewzahyou,view_matrix);
