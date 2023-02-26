@@ -13,7 +13,7 @@
 #include "matrixcalculate.h"
 
 #define WIDTH 1000
-#define HIGHT 1000 
+#define HIGHT 800 
 #define BORDER 2
 
 
@@ -36,7 +36,7 @@ int main(int argc, char **argv){
 	screen = DefaultScreen(dpy);
 	white = WhitePixel(dpy, screen);
 	black = BlackPixel(dpy, screen);
-    w = XCreateSimpleWindow(dpy, root, 200, 200, WIDTH*2, HIGHT*2, BORDER, black, white);
+    w = XCreateSimpleWindow(dpy, root, 200, 200, WIDTH, HIGHT, BORDER, black, white);
     quit = XCreateSimpleWindow(dpy, w, 3, 3, 30, 12, BORDER, black, white);
 
     gc = XCreateGC(dpy, w, 0, NULL);
@@ -104,7 +104,6 @@ int main(int argc, char **argv){
             switch(e.type){
                 case ButtonPress:
                     if (e.xany.window == quit) return 0;
-                    printf("X:%dY:%d\n",e.xbutton.x,e.xbutton.y);
                     switch (e.xbutton.button){
                         case 1:
                             if(e.xbutton.x<300&&e.xbutton.y<300){
@@ -123,7 +122,6 @@ int main(int argc, char **argv){
                     
                     break;
                 case KeyPress : 
-                    printf("keycode=%d \n", e.xkey.keycode);
                     switch (e.xkey.keycode){
                         case 25:
                             matrixMultiple(viewX_matrix,matrixplusX);
@@ -187,7 +185,7 @@ int main(int argc, char **argv){
         
         lasttime=newtime;
         while(1){
-            gettimeofday(&newtime,NULL);printf("%d\n",newtime.tv_usec-lasttime.tv_usec);
+            gettimeofday(&newtime,NULL);
             if(!((newtime.tv_usec-lasttime.tv_usec)>333333)){break;}
             
         }
