@@ -16,7 +16,7 @@ struct _pointmass_          //situten
 typedef struct _pointmass_ pointMass; 
 
 void pMReset(pointMass *resetpoint,float situryou);
-
 void pMintegral(pointMass *integralpoint);
+void waveUpdate(pointMass wavefront[100][100]);
 
 #endif
