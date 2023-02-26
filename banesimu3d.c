@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <sys/time.h>
 #include <string.h>
 #include <unistd.h>
 #include <X11/Xlib.h>
@@ -24,9 +25,9 @@ int main(int argc, char **argv){
  	unsigned long black, white;
  	GC gc;
  	XEvent e;
-    struct timespec lasttime,newtime;   
+    struct timeval lasttime,newtime;   
 
-    timespec_get(&newtime, TIME_UTC); 
+     
     newtime=lasttime;
 
 	int x, y;
@@ -89,6 +90,7 @@ int main(int argc, char **argv){
     int sinmode=0;
 ////////////////////////////////////////
     while (1){
+        gettimeofday(&newtime,NULL);
         XSetForeground(dpy, gc, black);
         XDrawString(dpy,buffer,gc,300,20,"WASD:rotate,MouseWheel:scaling,ClickGrayArea:make wave,R:reset,NumberKey:change mode",84);
         if(sinmode==0){
@@ -183,6 +185,11 @@ int main(int argc, char **argv){
         XSetForeground(dpy, gc, white);
         XFillRectangle(dpy,buffer,gc,0,0,WIDTH,HIGHT);
         
-         
+        lasttime=newtime;
+        while(1){
+            gettimeofday(&newtime,NULL);printf("%d\n",newtime.tv_usec-lasttime.tv_usec);
+            if(!((newtime.tv_usec-lasttime.tv_usec)>500000)){break;}
+            
         }
+    }
 }
