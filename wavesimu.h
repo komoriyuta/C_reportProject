@@ -18,5 +18,6 @@ typedef struct _pointmass_ pointMass;
 void pMReset(pointMass *resetpoint,float situryou);
 void pMintegral(pointMass *integralpoint);
 void waveUpdate(pointMass wavefront[100][100]);
+void setgausian2d(pointMass wavefront[100][100],int x,int y);
 
 #endif

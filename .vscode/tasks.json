@@ -10,6 +10,7 @@
                 "${fileDirname}/${fileBasename}",
                 "${fileDirname}/wavesimu.c",
                 "${fileDirname}/xlibcolorgc.c",
+                "${fileDirname}/matrixcalculate.c",
                 "-o",
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "-I /usr/include",

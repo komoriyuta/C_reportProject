@@ -24,8 +24,18 @@ void pMintegral(pointMass *integralpoint){
 void waveUpdate(pointMass wavefront[100][100]){
     for(int i=1;i<100-1;i++){
         for (int k=1;k<100-1;k++){
-            wavefront[i][k].accel=-(4*wavefront[i][k].posZ-(wavefront[i-1][k].posZ+wavefront[(i+1)][k].posZ+wavefront[i][k-1].posZ+wavefront[i][k+1].posZ))*0.5-wavefront[i][k].vel*0.01;
+            wavefront[i][k].accel=-(4*wavefront[i][k].posZ-(wavefront[i-1][k].posZ+wavefront[(i+1)][k].posZ+wavefront[i][k-1].posZ+wavefront[i][k+1].posZ))*0.5-wavefront[i][k].vel*0.06;
             pMintegral(&wavefront[i][k]);
+        }
+    }
+}
+void setgausian2d(pointMass wavefront[100][100],int x,int y){
+    for(int i=-5;i<6;i++){
+        for(int k=-5;k<6;k++){
+            float r2=i*i+k*k;
+            if(x+i>0||x+i<100||y+k>0||y+k<100){
+                wavefront[x+i][y+k].posZ+=2*exp(-r2/(2*10*10));
+            }
         }
     }
 }
