@@ -7,6 +7,7 @@
 void matrixMultiple(float Matrix1[3][3], float Matrix2[3][3]);
 void vecMatMultiple(float *Vector1,float Matrix1[3][3]);
 void vecMatMultiple_elm(float Vec_0,float Vec_1,float Vec_2,float *Vector1,float Matrix1[][3]);
+void matrixMultiple_dainyu(float Matrix0[3][3],float Matrix1[3][3], float Matrix2[3][3]);
 
 void matScaMultiple(int *Matrix1, int atai);
 
