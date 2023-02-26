@@ -54,7 +54,12 @@ void viewVectorsTrans(pointMass waveSurf[100][100],float viewVector[100][100][3]
      }
 }
 
-
-void matrixAdd(int *Matrix1, int *Matrix2){}
-void matrixSubtract(int *Matrix1, int *Matrix2){}
-void matScaMultiple(int *Matrix1, int atai){}
+void matScaMultiple(float Matrix1[3][3], float atai){
+    for(int i=0; i<3; i++){
+        for(int j=0; j<3; j++){
+            Matrix1[i][j]*=atai;
+        }
+        
+    }
+    
+}

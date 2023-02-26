@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <X11/Xlocale.h>
 #include <math.h>
 
 #include "wavesimu.h"
@@ -35,7 +36,7 @@ int main(int argc, char **argv){
 	white = WhitePixel(dpy, screen);
 	black = BlackPixel(dpy, screen);
     w = XCreateSimpleWindow(dpy, root, 200, 200, WIDTH*2, HIGHT*2, BORDER, black, white);
-    quit = XCreateSimpleWindow(dpy, w, 10, 3, 30, 12, BORDER, black, white);
+    quit = XCreateSimpleWindow(dpy, w, 3, 3, 30, 12, BORDER, black, white);
 
     gc = XCreateGC(dpy, w, 0, NULL);
     XSetForeground(dpy, gc, white);
@@ -78,25 +79,46 @@ int main(int argc, char **argv){
     pointMass wavefront2d[100][100];
     for(int i=0;i<100;i++){for (int k=0;k<100; k++){pMReset(&wavefront2d[i][k],2);for(int j=0;j<3;j++){viewzahyou[i][k][j];}}}
 
-    int frag_kaiten=0;
+    float scale=1;
 
     int j=0;
     long tmesin=0;
     //setgausian2d(wavefront2d,50,50);
     for(int i=0;i<40;i++){
     matrixMultiple(viewX_matrix,matrixplusX);}
+    int sinmode=0;
 ////////////////////////////////////////
     while (1){
-        XDrawString(dpy, quit, gc, 2, 2,"Exit",5);
-
+        XSetForeground(dpy, gc, black);
+        XDrawString(dpy,buffer,gc,300,20,"WASD:rotate,MouseWheel:scaling,ClickGrayArea:make wave,R:reset,NumberKey:change mode",84);
+        if(sinmode==0){
+            XDrawString(dpy,buffer,gc,300,40,"Normalmode",10);
+        }else if (sinmode==1){
+            XDrawString(dpy,buffer,gc,300,40,"center sin mode",15);
+        }else XDrawString(dpy,buffer,gc,300,40,"two sin mode",13);
+        
+        XDrawString(dpy, quit, gc, 4, 10, "Exit", 4);
         if(XCheckMaskEvent(dpy,ButtonPressMask|KeyPressMask,&e)){
             switch(e.type){
                 case ButtonPress:
                     if (e.xany.window == quit) return 0;
                     printf("X:%dY:%d\n",e.xbutton.x,e.xbutton.y);
-                    if(e.xbutton.x<300&&e.xbutton.y<300){
-                        setgausian2d(wavefront2d,e.xbutton.y/3,e.xbutton.x/3);
+                    switch (e.xbutton.button){
+                        case 1:
+                            if(e.xbutton.x<300&&e.xbutton.y<300){
+                            setgausian2d(wavefront2d,e.xbutton.y/3,e.xbutton.x/3);
+                            }
+                            break;
+                        case 4:
+                            scale+=0.1;
+                            break;
+                        case 5:
+                            scale-=0.1;
+                            break;
+                        default:
+                            break;
                     }
+                    
                     break;
                 case KeyPress : 
                     printf("keycode=%d \n", e.xkey.keycode);
@@ -113,19 +135,27 @@ int main(int argc, char **argv){
                         case 40:
                             matrixMultiple(viewZ_matrix,matrixplusZ);
                             break;
+                        case 27:
+                            for(int i=0;i<100;i++){for (int k=0;k<100; k++){pMReset(&wavefront2d[i][k],2);for(int j=0;j<3;j++){viewzahyou[i][k][j];}}}
+                            break;
+                        case 10:
+                            sinmode=0;
+                            break;
+                        case 11: 
+                            sinmode=1;
+                            break;
+                        case 12: 
+                            sinmode=2;
+                            break;
                         default:
                             break;
                     }
-                    break;
-                case KeyRelease:
-
-                    frag_kaiten=0;
                     break;
             }
         }
        
        matrixMultiple_dainyu(view_matrix,viewX_matrix,viewZ_matrix);
-        
+       matScaMultiple(view_matrix,scale);
         waveUpdate(wavefront2d);
         XSetForeground(dpy, gc, black);
         viewVectorsTrans(wavefront2d,viewzahyou,view_matrix);
@@ -136,7 +166,11 @@ int main(int argc, char **argv){
         ++tmesin;
               
         
-        //wavefront2d[50][50].posZ=2*sin(tmesin/50.0);
+        if(sinmode==1)wavefront2d[50][50].posZ=2*sin(tmesin/50.0);
+        if(sinmode==2){
+            wavefront2d[30][50].posZ=2*sin(tmesin/50.0);
+            wavefront2d[70][50].posZ=2*sin(tmesin/50.0);
+        }
         for (int i = 0; i < 100; i++){
             wavefront2d[0][i].posZ=-wavefront2d[1][i].posZ;
             wavefront2d[99][i].posZ=-wavefront2d[98][i].posZ;
